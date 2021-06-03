@@ -1,0 +1,49 @@
+﻿@model IEnumerable<BakerCakeClient.Models.CakeDetail>
+@{ ViewData["Title"] = "Index"; }
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<h1>Index</h1>
+<div class="container">
+    <div class="col-md-4">
+        <table id="productTable"></table>
+    </div>
+    <table>
+        <tr>
+            <td colspan="2" style="text-align:center">
+                <input type="button"
+                       value="Get Product" onclick="GetProduct();" />
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+<script>$(document).ready(GetProduct());
+
+
+
+    function GetProduct() {
+        var url = "https://localhost:44334/api/cakedetails";
+
+
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'GET',
+            success: function (data) {
+                $('#productTable').empty();
+
+                var headerrow = '<tr> <th>  CakeId  </th> <th>  CakeName </th> <th> CakeDescription <th> <th> CakePrice <th> <th> CakeQuantity <th> <th> ImageUrl <th> </tr>';
+                $('#productTable').append(headerrow)
+                $.each(data, function (index, record) {
+                    console.log(record)
+                    var row = '<tr> <td>' + record.CakeId + '</td> <td>' + record.CakeName + '</td> <td>' + record.CakeDescription + '</td> <td>' + record.CakePrice + '</td> <td>' + record.CakeQuantity + '</td><td>' + record.ImageUrl + '</td></tr>'
+                    $('#productTable').append(row)
+                });
+            }
+        })
+    }</script>
+
